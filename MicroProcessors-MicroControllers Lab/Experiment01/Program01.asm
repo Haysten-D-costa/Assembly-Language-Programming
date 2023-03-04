@@ -1,20 +1,26 @@
-section.data
-	message01 db 'Hello World',13,10
-	message_length01 equ $-message01
-	message02 db 'My name is Haysten',13,10
-	message_length02 equ $-message02
-setion.text
+; TO PRINT AND DISPLAY 'HELLO WORLD' STRING WITH PROGRAMMER NAME...
+
+section .data
+	msg01 db 'Hello World', 13,10			; STORING FIRST STRING (in msg01)...
+	msg01_length equ $-msg01				; STORING LENGTH OF FIRST STRING (in msg01_length)...
+	msg02 db 'My name is Haysten', 13,10    ; STORING SECOND STRING (in msg02)...
+	msg02_length equ $-msg02				; STORING LENGTH OF SECOND STRING (in msg02_length)...
+
+section .text
 	global _start
+
 _start :
-	mov edx, length_message01
-	mov ecx, message01
-	mov ebx,1
-	mov eax,4
+	mov eax, 4								; DISPLAYS FIRST MESSAGE(msg01)...
+	mov ebx, 1
+	mov ecx, msg01
+	mov edx, msg01_length
 	int 80h
-	mov edx,length_message02
-	mov ecx, message02
-	mov ebx,1
-	mov eax,4
+
+	mov eax, 4								; DISPLAYS SECOND MESSAGE(msg02)...
+	mov ebx, 1
+	mov ecx, msg02
+	mov edx, msg01_length
 	int 80h 
-	mov eax,1 ;to exit
+
+	mov eax, 1								; EXIT...
 	int 80h
