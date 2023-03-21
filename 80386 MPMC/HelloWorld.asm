@@ -1,5 +1,9 @@
 ; ASSEMBLY LANGUAGE PROGRAM TO PRINT HELLO WORLD...
 
+section .data
+        msg db "Hello World !", 10, 30
+        msgl equ $ -msg
+        
 section .text
         global _start
 _start:
@@ -11,7 +15,3 @@ _start:
 
         mov eax, 1
         int 80h
-
-section .data
-        msg db "Hello World !" 0xa
-        msgl equ $ -msg
