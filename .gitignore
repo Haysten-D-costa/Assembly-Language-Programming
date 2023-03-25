@@ -1,2 +1,8 @@
+# To Ignore files without Extension...
+*     
+!*/
+!*.*
+
+# To Ignore files with Extension (Specified below)...
 *.o
 *.txt
