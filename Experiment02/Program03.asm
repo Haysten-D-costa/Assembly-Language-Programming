@@ -5,7 +5,7 @@ section .data
 	msgl1 equ $-msg1
 	msg2 db "Enter second number  : "
 	msgl2 equ $-msg2
-	msg3 db 13,10, "Results : ", 13,10, "-> First number entered   : "
+	msg3 db 13,10, "RESULT : ", 13,10, "-> First number entered   : "
 	msgl3 equ $-msg3  
 	msg4 db "-> Second number entered  : "
 	msgl4 equ $-msg4
