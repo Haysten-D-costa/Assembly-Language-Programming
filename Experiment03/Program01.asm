@@ -19,26 +19,27 @@ _start:
 	mov ecx, msg1
 	mov ebx, 1
 	mov eax, 4
-	int 80h
+	int 80H
 	
 	mov eax, '1'
 	mov ecx, '9'
 	sub ecx, '0'
 	
-UP :    mov [num], eax
+up:
+	mov [num], eax
 	push ecx
 	
 	mov edx, 1 ; To display the number...
 	mov ecx, num
 	mov ebx, 1
 	mov eax, 4
-	int 80h
+	int 80H
 	
 	mov edx, gapL ; To display gap...
 	mov ecx, gap
 	mov ebx, 1
 	mov eax, 4
-	int 80h
+	int 80H
 	
 	mov eax, [num]
 	sub eax, '0'
@@ -47,17 +48,17 @@ UP :    mov [num], eax
 	add eax, '0'
 	
 	pop ecx
-	loop UP
+	loop up
 	
 	mov edx, new_lineL
 	mov ecx, new_line
 	mov ebx, 1
 	mov eax, 4
-	int 80h
+	int 80H
 	
 	mov ebx, 0 ; To exit...
 	mov eax, 1
-	int 80h
+	int 80H
 		
 	
 	 
