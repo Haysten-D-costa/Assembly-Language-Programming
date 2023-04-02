@@ -2,18 +2,17 @@
 
 This Folder consists of Programs on assembly language, using nasm...
 
-<!-- -> Experiment01  -->
-Basic Programs (String Operations)...
+# -> Experiment01 :
     1. Program to display Hello World String with programmer name.
     2. Program to display 10 stars using one variable.
 
-<!-- -> Experiment02  -->
-Basic Programs (Number Operations)...
+# -> Experiment02 :
     1. Program to accept a number and display it.
     2. Program to accept 2 numbers, add and display the result.
     3. Program to implement simple mathematical operations -i.e- (+ - / *).
 
-<!-- -> Experiment03  -->
-    1. Program to generate numbers fro 1-9.
+# -> Experiment03 :
+    1. Program to generate numbers from 1-9.
     2. Program to check whether entered number is Even or Odd.
     3. Program to check whether entered number is Positive or Negative.
+    4. Program to find the greatest of three numbers.
