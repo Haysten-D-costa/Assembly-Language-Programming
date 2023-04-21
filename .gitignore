@@ -6,3 +6,4 @@
 # To Ignore files with Extension (Specified below)...
 *.o
 *.txt
+*.vscode
