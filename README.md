@@ -19,3 +19,8 @@ Will include simple and basic programs..
     2. Program to check whether entered number is Even or Odd.
     3. Program to check whether entered number is Positive or Negative.
     4. Program to find the greatest of three numbers.
+
+### -> Experiment04 : 
+    1. Program to display string using macros.
+    2. Program to display fibonacci series using macros.
+    3. Program to compute and display the factorial of a number.
