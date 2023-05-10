@@ -1,10 +1,11 @@
-# ASSEMBLY LEVEL LANGUAGE PROGRAMMING('80386', using NASM on UBUNTU Terminal).....
+# **ASSEMBLY LEVEL LANGUAGE PROGRAMMING('80386', using NASM on UBUNTU Terminal)**
 
 This Folder consists of Programs on Assembly Language(80386), using nasm assembler... 
 
 This includes my starting journey in learning the Assembly Language 
-Will include simple and basic programs..
+Will include programs...for the course **MICROPROCESSORS AND MICROCONTROLLERS**.
 
+---
 ### -> Experiment01 :
     1. Program to display Hello World String with programmer name.
     2. Program to display 10 stars using one variable.
@@ -21,6 +22,59 @@ Will include simple and basic programs..
     4. Program to find the greatest of three numbers.
 
 ### -> Experiment04 : 
+    1. Program to convert a hexadecimal number to ASCII
+    2. Program to count the number of positive and negative numbers from the array using procedures
+    3. Program to count the number of odd and even numbers from the array using procedures
+    4. Program to convert loowercase character to uppercase using procedures
+    5. Program to convert uppercase character to lowercase using procedures
+    
+### -> Experiment05 : 
     1. Program to display string using macros.
-    2. Program to display fibonacci series using macros.
+    2. Program which contains the following macros:
+        a. For calculating the fibonacii series for N
+        b. For entering the value of N
+        c. For displaying Numbers
+
     3. Program to compute and display the factorial of a number.
+
+### -> Experiment06 : 
+    1. Program to read and display array elements.
+    2. Program to transfer a block of data from one location to another.
+    3. Program to implement a bubble sort algorithm.
+---
+### **PROGRAM TO DISPLAY 'HELLO WORLD' MESSAGE**
+```
+section	.text
+   global _start    ;must be declared for linker (ld)
+	
+_start:	            ;tells linker entry point
+   mov	edx,len     ;message length
+   mov	ecx,msg     ;message to write
+   mov	ebx,1       ;file descriptor (stdout)
+   mov	eax,4       ;system call number (sys_write)
+   int	0x80        ;call kernel
+	
+   mov	eax,1       ;system call number (sys_exit)
+   int	0x80        ;call kernel
+
+section	.data
+msg db 'Hello, world!', 0xa  ;string to be printed
+len equ $ - msg              ;length of the string
+```
+---
+## **Compiling and Linking an Assembly Program in NASM**
+Make sure you have set the path of nasm and ld binaries in your PATH environment variable. Now, take the following steps for compiling and linking the above program −
+Type the above code using a text editor and save it as hello.asm.
+Make sure that you are in the same directory as where you saved hello.asm.
+
+> 1. To assemble the program, type ```nasm -f elf hello.asm```
+
+*If there is any error, you will be prompted about that at this stage. Otherwise, an object file of your program named ```hello.o``` will be created.*
+
+> 2. To link the object file and create an executable file named hello, type ```ld -m elf_i386 -s -o hello hello.o```
+
+> 3. Execute the program by typing ```./hello```
+
+*If you have done everything correctly, it will display 'Hello, world!' on the screen.*
+
+---
