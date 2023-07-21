@@ -16,14 +16,14 @@ section .bss
 
 section .text
     global _start
-_start:
 
+_start:
     MOV BL, 0
     MOV DL, 0
     MOV CL, 11
     MOV ESI, num_array
 
-    CALL CHECK_pos_neg
+    CALL CHECK_pos_neg        ; Procedure call....
     MOV EDX, disp_neg_countL
     MOV ECX, disp_neg_count
     MOV EBX, 1
@@ -58,29 +58,28 @@ _start:
     MOV EAX, 1
     INT 80H
 
-CHECK_pos_neg:
+    CHECK_pos_neg:     ; Procedure definition...
+        NEXT:
+            MOV AL, [ESI]
+            ROL AL, 1
+            JC NEGATIVE
+            
+            INC BL
+            INC ESI
+            DEC CL
+            JNZ NEXT
+            JMP COUNTER
 
-NEXT:
-    MOV AL, [ESI]
-    ROL AL, 1
-    JC NEGATIVE
-    
-    INC BL
-    INC ESI
-    DEC CL
-    JNZ NEXT
-    JMP COUNTER
+            NEGATIVE:
+                INC DL
+                INC ESI
+                DEC CL
+                JNZ NEXT
+                JMP COUNTER
 
-NEGATIVE:
-    INC DL
-    INC ESI
-    DEC CL
-    JNZ NEXT
-    JMP COUNTER
-
-COUNTER:
-    ADD DL, '0'
-    MOV [neg_count], DL
-    ADD BL, '0'
-    MOV [pos_count], BL
-    RET
+        COUNTER:
+            ADD DL, '0'
+            MOV [neg_count], DL
+            ADD BL, '0'
+            MOV [pos_count], BL
+            RET

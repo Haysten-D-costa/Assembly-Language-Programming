@@ -1,56 +1,40 @@
 ; ALP TO CONVERT A HEXADECIMAL NUMBER TO ASCII...
 
 section .data
-	ecnt dw 12H
-	msg db 'The converted number is :  '
-	msglength equ $ -msg
-	msg1 db 10, ' ', 10
-	msgl1 equ $-msg1
+    hex dw 32H
 
 section .bss
-	dis_buffer resb 2
+    ascii resb 2  ;=> storage for required result...
 
 section .text
-	global _start
+    global _start
 
 _start:
-	mov bx, word[ecnt]
-	mov ecx, 2
-	mov edi, dis_buffer
+    MOV BL, [hex]
+    MOV CL, 2  ;=> Since two bytes in 'HEX' (3 and 4)...
+    MOV EDI, ascii ;=> initialize EDI with memory location of ASCII...
 
-DUP:
-	rol bl, 04
-	mov al, bl
-	and al, 0fH
-	cmp al, 09H
-	jbe NEXT
-	add al, 07H
+    next_digit:
+        ROL BL, 4 ;=> Rotate the HEX 4 times...
+        MOV AL, BL ;=> Creating a copy of BL... 
+        AND AL, 0FH    ;=> CLEARING 4 MSB's...
+        CMP AL, 09H    ;=> Check if (AL > 9) if so, => no. is in Hex form (AH, BH, CH.....)
+        
+        JBE skip_add
+        ADD AL, 07H ;=> Add 7 if greater than 9...
 
-NEXT:
-	add al, 30H
-	mov [edi], al
-	inc edi
-	loop DUP
+        skip_add:
+            ADD AL, 30H  ;=> Add 30H to convert to corresponding ASCII form...
+            MOV [EDI], AL   ;=> Move converted ASCII character to ASCII LOCATION stored in [EDI]...
+            INC EDI ;=> Increment EDI, to convert next character...
+            LOOP next_digit
+            
+    MOV EDX, 2
+    MOV ECX, ascii
+    MOV EBX, 1
+    MOV EAX, 4
+    INT 80H
 
-	mov edx, msglength
-	mov ecx, msg
-	mov ebx, 1
-	mov eax, 4
-	int 80H
-    
-	mov edx, 2
-	mov ecx, dis_buffer
-	mov ebx, 1
-	mov eax, 4
-	int 80H
-
-
-	mov edx, msgl1
-	mov ecx, msg1
-	mov ebx, 1
-	mov eax, 4
-	int 80H
-
-	mov ebx, 0
-	mov eax, 1
-	int 80H
+    MOV EBX, 0
+    MOV EAX, 1
+    INT 80H 

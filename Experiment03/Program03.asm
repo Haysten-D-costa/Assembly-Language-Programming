@@ -2,63 +2,53 @@
 
 section .data
 	msg1 db "Enter a number : "
-	msg1L equ $ -msg1
-	msg2 db "Number entered is a 'POSITIVE' number.", 10, 10 
-	msg2L equ $ -msg2
-	msg3 db "Number entered is a 'NEGATIVE' number.", 10, 10
-	msg3L equ $ -msg3
-	msg4 db "Number entered is neither positive nor negative.", 10, 10
-	msg4L equ $ -msg4
+	msg1L equ $ - msg1
+    positive db "Positive", 13, 10
+    posL equ $ - positive
+    negative db "Negative", 13, 10
+    negL equ $ - negative
 
 section .bss
-	num resb 2
-	
-section .text 
-	global _start
+    num resb 2
+
+section .text
+    global _start
 
 _start:
-	mov edx, msg1L
-	mov ecx, msg1
-	mov ebx, 1
-	mov eax, 4
-	int 80H
+	MOV EDX, msg1L
+	MOV ECX, msg1
+	MOV EBX, 1
+	MOV EAX, 4
+	INT 80H
 
-	mov edx, 2
-	mov ecx, num
-	mov ebx, 0
-	mov eax, 3
-	int 80H
+    MOV EDX, 2
+    MOV ECX, num
+    MOV EBX, 0
+    MOV EAX, 3
+    INT 80H
 
-	mov al, [num]
-	sub al, '0'
+    MOV AL, [num]
+    SUB AL, '0'
+    ROL AL, 1
+    JNC positive_msg
+    
+        negative_msg:
+        MOV EDX, negL
+        MOV ECX, negative
+        MOV EBX, 1
+        MOV EAX, 4
+        INT 80H
 
-	rol al, 1     ; Rotate bit to left, and store leftmost bit(sign-bit) to CF, if(CF=1) ==> Number negative...
-	jz zero       ; Jump to zero section...
-	jc negative   ; Jump to negative section...
-	
-	mov edx, msg2L
-	mov ecx, msg2
-	mov ebx, 1
-	mov eax, 4
-	int 80H
-	jmp exit
+        JMP exit
 
-zero:
-	mov edx, msg4L
-	mov ecx, msg4
-	mov ebx, 1
-	mov eax, 4
-	int 80H
-	jmp exit
+    positive_msg:
+        MOV EDX, posL
+        MOV ECX, positive
+        MOV EBX, 1
+        MOV EAX, 4
+        INT 80H
 
-negative:
-	mov edx, msg3L
-	mov ecx, msg3
-	mov ebx, 1
-	mov eax, 4
-	int 80H
-
-exit:
-	mov ebx, 0
-	mov eax, 1
-	int 80H
+    exit:
+        MOV EBX, 0
+        MOV EAX, 1
+        INT 80H

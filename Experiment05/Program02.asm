@@ -1,103 +1,105 @@
 ; TO DISPLAY FIBONACCI SERIES USING MACROS...
 
-%macro write 2
-    MOV eax, 4
-    MOV ebx, 1
-    MOV ecx, %1
-    MOV edx, %2
-    int 80h
-%endmacro
-
+section .data
+    inputMsg db 'Enter the number of terms : '
+    lenInputMsg equ $-inputMsg
+    
+    space db ' '
+    lenSpace equ $-space
+    
+section .bss
+    input resb 2
+    hex resb 2
+    ascii resb 2
+    
 %macro read 2
-    MOV eax, 3
-    MOV ebx, 0
-    MOV ecx, %1
-    MOV edx, %2
-    int 80h
-%endmacro
-
-%macro fibo 1
-    mov eax, 00H
-    mov ebx, 01H
-    mov ecx, [%1]
-back:
-    mov edx, eax
-    add edx, ebx
-    mov [temp], eax
     pusha
-    JMP HEX
-done:
-    write dis_buffer, 2
-    MOV eax, 4
-    MOV ebx, 1
-    MOV ecx, space
-    MOV edx, spacelen
+    mov eax, 3
+    mov ebx, 0
+    mov ecx, %1
+    mov edx, %2
     int 80h
     popa
-    mov eax, ebx
-    mov ebx, edx
-    dec ecx
-    jnz back
 %endmacro
 
-section .data
-    msg db "Enter the n value : "
-    msglen equ $-msg
-    space db " "
-    spacelen equ $-space
+%macro write 2
+    pusha
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, %1
+    mov edx, %2
+    int 80h
+    popa
+%endmacro
 
-section .bss
-    num1 resw 5
-    num2 resw 5
-    n resb 1
-    temp resw 2
-    dis_buffer resb 2
-
+%macro fibonacci 1
+    mov al, 0 ; First number in Fibonacci sequence
+    mov bl, 1 ; Second number in Fibonacci sequence
+    mov cl, [%1] ; The number of terms
+    next_term:
+        mov dl, al
+        add dl, bl ; Adding the previous two elements
+        mov [hex], al
+        pusha
+        call hex_to_ascii ; value from hex is converted and stored in ascii
+        popa
+        write ascii, 2 ; Displaying the element of the Fibonacci sequence on the terminal
+        write space, lenSpace
+        mov al, bl ; updating the al value
+        mov bl, dl ; updating the bl value
+        loop next_term
+%endmacro
+    
 section .text
     global _start
+    
 _start:
-write msg, msglen
-    read num1, 2
-    ;read num2, 1
-    CALL convert
-    mov [num1],ebx
-    fibo num1
-    MOV eax, 1
+    write inputMsg, lenInputMsg
+    read input, 2
+    call ascii_to_hex
+    fibonacci hex 
+    mov eax, 1
     int 80h
-convert:
-    MOV esi, num1
-    MOV edi, num2
-    MOV ecx, 02h
+    
+    
+ascii_to_hex:
+    mov esi, input
+    mov ecx, 02h
     xor eax, eax
     xor ebx, ebx
-up:
-    rol bl,04h
-    mov al, [esi]
-    cmp al, 39h
-    jbe skipe
-    sub al, 07h
-skipe:
-    sub al, 30h
-    add bl, al
-    mov [edi], bl
-    inc esi
-    inc edi
-    loop up
-    ret
-HEX:
-    MOV bx, word[temp]
-    MOV ecx, 2
-    MOV edi, dis_buffer
-DUP:
-    ROL bl, 4
-    MOV al, bl
-    AND al, 0Fh
-    CMP al, 09h
-    JBE NEXT
-    add al, 07h
-NEXT:
-    ADD al, 30h
-    MOV [edi], al
-    INC edi
-    LOOP DUP
-    JMP done
+
+    next_ascii_digit:
+        rol bl, 4
+        mov al, [esi]
+        cmp al, 39h
+        jbe skip_sub
+        sub al, 07h
+
+        skip_sub:
+            sub al, 30h
+            add bl, al
+            inc esi
+            loop next_ascii_digit
+            mov [hex], bl
+            ret
+    
+hex_to_ascii:
+
+    mov bl, [hex]
+    mov cl, 2
+    mov edi, ascii
+
+    next_hex_digit:
+        rol bl, 4
+        mov al, bl
+        and al, 0Fh
+        cmp al, 09H
+        jbe skip_add
+        add al, 07H
+        
+        skip_add:
+            add al, 30h
+            mov [edi], al
+            inc edi
+            loop next_hex_digit
+            ret

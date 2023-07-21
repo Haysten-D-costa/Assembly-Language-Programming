@@ -8,11 +8,14 @@ section .data
     mesglen1 equ $ -mesg1
     newline db 10
     newlinelen equ $ -newline
+
 section .bss
     even resb 1
     odd resb 1
+
 section .text
     global _start
+
 _start:
     CALL check
     MOV EAX, 4
@@ -47,28 +50,32 @@ _start:
     
     MOV EAX, 1 ; Exit...
     INT 80H
-check:
-    MOV BL, 0
-    MOV DL, 0
-    MOV CL, 11
-    MOV ESI, Numbers
-Next:
-    MOV AL, [ESI]
-    ROR AL, 1
-    JNC Even
-    INC BL
-    INC ESI
-    DEC CL
-    JNZ Next
-    JMP counter
-Even:
-    INC DL
-    INC ESI
-    DEC CL
-    JNZ Next
-counter:
-    ADD DL, '0'
-    MOV [even], DL
-    ADD BL, '0'
-    MOV [odd], BL
-    RET
+
+    check:
+        MOV BL, 0
+        MOV DL, 0
+        MOV CL, 11
+        MOV ESI, Numbers
+
+        Next:
+            MOV AL, [ESI]
+            ROR AL, 1
+            JNC Even
+            INC BL
+            INC ESI
+            DEC CL
+            JNZ Next
+            JMP counter
+
+            Even:
+                INC DL
+                INC ESI
+                DEC CL
+                JNZ Next
+                
+        counter:
+            ADD DL, '0'
+            MOV [even], DL
+            ADD BL, '0'
+            MOV [odd], BL
+            RET

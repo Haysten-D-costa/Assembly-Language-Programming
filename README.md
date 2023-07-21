@@ -63,7 +63,7 @@ Fedora Linux. This version is simpler to install, just double-click the RPM file
     
 ### -> Experiment05 : 
     1. Program to display string using macros.
-    2. Program which contains the following macros:
+    2. Program which contains the following macros :
         a. For calculating the fibonacii series for N
         b. For entering the value of N
         c. For displaying Numbers
@@ -75,6 +75,11 @@ Fedora Linux. This version is simpler to install, just double-click the RPM file
     2. Program to transfer a block of data from one location to another.
     3. Program to implement a bubble sort algorithm.
 
+### -> Experiment07
+    1. Program to implement a Linear Search algorithm.
+
+### -> Experiment08
+    1. Program to print Hello World vertically downwards.
 #
 ### **PROGRAM TO DISPLAY 'HELLO WORLD' MESSAGE**
 #

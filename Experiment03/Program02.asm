@@ -1,51 +1,52 @@
 ; PROGRAM TO CHECK WHETHER NUMBER IS EVEN OR ODD...
-
-section .data
 	msg1 db "Enter a number : "
 	msg1L equ $ -msg1
-	msg2 db "Number you entered is an 'even' number.", 10, 10
-	msg2L equ $ -msg2
-	msg3 db "Number you entered is an 'ODD' number.", 10, 10 
-	msg3L equ $ -msg3
-	
+	section .data
+    even db "Even", 13, 10
+    evenL equ $ - even
+    odd db "Odd", 13, 10
+    oddL equ $ - odd
+
 section .bss
-	num resb 2
-	
-section .text 
-	global _start
+    num resb 2
 
+section .text
+    global _start
 _start:
-	mov edx, msg1L
-	mov ecx, msg1
-	mov ebx, 1
-	mov eax, 4
-	int 80H
-	
-	mov edx, 2
-	mov ecx, num
-	mov ebx, 0
-	mov eax, 3
-	int 80H
-	
-	mov al, [num]
-	AND al, 1H
-	jz even
-	
-	mov edx, msg3L
-	mov ecx, msg3
-	mov ebx, 1
-	mov eax, 4
-	int 80H
-	jmp exit
-	
-even:
-	mov edx, msg2L
-	mov ecx, msg2
-	mov ebx, 1
-	mov eax, 4
-	int 80H
 
-exit:
-	mov ebx, 0
-	mov eax, 1
-	int 80H
+	MOV EDX, msg1L
+	MOV ECX, msg1
+	MOV EBX, 1
+	MOV EAX, 4
+	INT 80H
+
+    MOV EDX, 2
+    MOV ECX, num
+    MOV EBX, 0
+    MOV EAX, 3
+    INT 80H
+
+    MOV AL, [num]
+    TEST AL, 1    ;! If 110'1' (LAST DIGITS MATCH)
+    JZ even_msg   ;!    000'1' ==> ZF = 0...
+
+    odd_msg:
+        MOV EDX, oddL
+        MOV ECX, odd
+        MOV EBX, 1
+        MOV EAX, 4
+        INT 80H
+        
+        JMP exit
+
+    even_msg:
+        MOV EDX, evenL
+        MOV ECX, even
+        MOV EBX, 1
+        MOV EAX, 4
+        INT 80H
+
+    exit:
+        MOV EBX, 0
+        MOV EAX, 1
+        INT 80H

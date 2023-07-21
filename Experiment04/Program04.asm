@@ -58,30 +58,30 @@ _start:
 	INT 80H
 	JMP EXIT
 	
-UPPER_to_LOWER:
- 	MOV AL, [upper_char]
- 	CMP AL, 'A'
- 	JB INVALID
- 	CMP AL, 'Z'
- 	JA INVALID
- 	ADD AL, 32
- 	MOV [lower_char], AL
- 	RET
- 	
+	UPPER_to_LOWER:
+		MOV AL, [upper_char]
+		CMP AL, 'A'
+		JB INVALID
+		CMP AL, 'Z'
+		JA INVALID
+		ADD AL, 32
+		MOV [lower_char], AL
+		RET
+		
 INVALID:
 	MOV EDX, msg4L
 	MOV ECX, msg4
 	MOV EBX, 1
 	MOV EAX, 4
 	INT 80H
- 	
+		
 EXIT:
- 	MOV EDX, new_lineL
- 	MOV ECX, new_line
- 	MOV EBX, 1
- 	MOV EAX, 4
- 	INT 80H
- 
- 	MOV EBX, 0
+	MOV EDX, new_lineL
+	MOV ECX, new_line
+	MOV EBX, 1
+	MOV EAX, 4
+	INT 80H
+
+	MOV EBX, 0
 	MOV EAX, 1
 	INT 80H		

@@ -1,182 +1,143 @@
 ; TO PERFORM BASIC MATHEMATICAL OPERATRIONS ON INPUTED num1BERS...
 
 section .data
-	msg1 db "Enter first number   : "
-	msgl1 equ $-msg1
-	msg2 db "Enter second number  : "
-	msgl2 equ $-msg2
-	msg3 db 13,10, "RESULT : ", 13,10, "-> First number entered   : "
-	msgl3 equ $-msg3  
-	msg4 db "-> Second number entered  : "
-	msgl4 equ $-msg4
-	msg5 db "-> Sum   : "
-	msgl5 equ $-msg5
-	msg6 db 13,10, "-> Diff  : "
-	msgl6 equ $-msg6
-	msg7 db 13,10, "-> Prod  : "
-	msgl7 equ $-msg7
-	msg8 db 13,10, "-> Div   : "
-	msgl8 equ $-msg8
-	msg9 db 13,10, " "
-	msgl9 equ $-msg9
-	
+    msg01 db "Enter 1st number : "
+    msg01L equ $ - msg01
+    msg02 db "Enter 2nd number : "
+    msg02L equ $ - msg02
+    msg03 db 13, 10, "Summation     : "
+    msg03L equ $ - msg03
+    msg04 db 13, 10, "Difference    : "
+    msg04L equ $ - msg04
+    msg05 db 13, 10, "Multplication : "
+    msg05L equ $ - msg05
+    msg06 db 13, 10, "Division      : "
+    msg06L equ $ - msg06
+	new_line db " ", 13, 10
+	new_lineL equ $ - new_line
+    
 section .bss
-	num1 resb 2 
-	num2 resb 2 
-	summ resb 1
-	diff resb 1
-	mult resb 1
-	divi resb 1
+    num1 resb 2
+    num2 resb 2
+    summ resb 2
+    diff resb 2
+    mult resb 2
+    divi resb 2
 
 section .text
-	global _start
+    global _start
 
 _start:
-	mov edx, msgl1 ; OUTPUT : "Enter first number : "...
-	mov ecx, msg1
-	mov ebx, 1
-	mov eax, 4
-	int 80h
-	
-	mov edx, 2     ; "User enters using keyboard"...
-	mov ecx, num1
-	mov ebx, 0
-	mov eax, 3
-	int 80h
-	
-	mov edx, msgl2 ; OUTPUT : "Enter second number : "...
-	mov ecx, msg2
-	mov ebx, 1
-	mov eax, 4
-	int 80h
-	
-	mov edx, 2     ; "User enters using keyboard"...
-	mov ecx, num2
-	mov ebx, 0
-	mov eax, 3
-	int 80h
-	
-	mov edx, msgl3 ; OUTPUT : "First number entered : "... 
-	mov ecx, msg3
-	mov ebx, 1
-	mov eax, 4
-	int 80h
-	
-	mov edx, 2
-	mov ecx, num1
-	mov ebx, 1
-	mov eax, 4
-	int 80h
-	
-	mov edx, msgl4 ; OUTPUT : "Second number entered : "... 
-	mov ecx, msg4
-	mov ebx, 1
-	mov eax, 4
-	int 80h
-	
-	mov edx, 2
-	mov ecx, num2
-	mov ebx, 1
-	mov eax, 4
-	int 80h
-	
-	mov eax, [num1]
-	sub eax, '0'
-	
-	mov ebx, [num2]
-	sub ebx, '0'
-	
-	add eax, ebx
-	add eax, '0'
-	
-	mov [summ], eax
-	
-	mov edx, msgl5
-	mov ecx, msg5
-	mov ebx, 1
-	mov eax, 4
-	int 80h
-	
-	mov edx, 1           
-	mov ecx, summ          
-	mov ebx, 1 
-	mov eax, 4            
-	int 80h   
-	
-	mov eax, [num1]
-	sub eax, '0'
-	
-	mov ebx, [num2]
-	sub ebx, '0'
-		
-	sub eax, ebx
-	add eax, '0'
-	
-	mov [diff], eax
-	
-	mov edx, msgl6
-	mov ecx, msg6
-	mov ebx, 1
-	mov eax, 4
-	int 80h
-	
-	mov edx,1           
-	mov ecx,diff          
-	mov ebx,1 
-	mov eax,4            
-	int 80h 
-	
-	mov ax, [num1]
-	sub ax, '0'
+    MOV EDX, msg01L
+    MOV ECX, msg01
+    MOV EBX, 1
+    MOV EAX, 4
+    INT 80H
 
-	mov bx, [num2]
-	sub bx, '0'
-	
-	mul bx
-	add ax, '0'
-	
-	mov [mult], ax
-	
-	mov edx, msgl7
-	mov ecx, msg7
-	mov ebx, 1
-	mov eax, 4
-	int 80h
-	
-	mov edx, 1           
-	mov ecx, mult          
-	mov ebx, 1 
-	mov eax, 4            
-	int 80h 
-	
-	mov al, [num1]
-	sub al, '0'
-	
-	mov bl, [num2]
-	sub bl, '0'
-	
-	div bl
-	add al, '0'
-	
-	mov [divi], ax
-	
-	mov edx, msgl8
-	mov ecx, msg8
-	mov ebx, 1
-	mov eax, 4
-	int 80h
-	
-	mov edx, 1           
-	mov ecx, divi          
-	mov ebx, 1 
-	mov eax, 4            
-	int 80h 
-	
-	mov edx, msgl9
-	mov ecx, msg9
-	mov ebx, 1
-	mov eax, 4
-	int 80h
-	
-	mov eax,1
-	int 80h	
+    MOV EDX, 2
+    MOV ECX, num1
+    MOV EBX, 0
+    MOV EAX, 3
+    INT 80H
+
+    MOV EDX, msg02L
+    MOV ECX, msg02
+    MOV EBX, 1
+    MOV EAX, 4
+    INT 80H
+
+    MOV EDX, 2
+    MOV ECX, num2
+    MOV EBX, 0
+    MOV EAX, 3
+    INT 80H
+
+    MOV AL, [num1] ; Summation procedure...
+    MOV BL, [num2]
+    SUB AL, '0'
+    SUB BL, '0'
+    ADD AL, BL
+    ADD AL, '0'
+    MOV [summ], AL
+
+    MOV EDX, msg03L
+    MOV ECX, msg03
+    MOV EBX, 1
+    MOV EAX, 4
+    INT 80H
+
+    MOV EDX, 2
+    MOV ECX, summ
+    MOV EBX, 1
+    MOV EAX, 4
+    INT 80H
+
+    MOV AL, [num1] ; Difference procedure...
+    MOV BL, [num2]
+    SUB AL, '0'
+    SUB BL, '0'
+    SUB AL, BL
+    ADD AL, '0'
+    MOV [diff], AL
+
+    MOV EDX, msg04L
+    MOV ECX, msg04
+    MOV EBX, 1
+    MOV EAX, 4
+    INT 80H
+
+    MOV EDX, 2
+    MOV ECX, diff
+    MOV EBX, 1
+    MOV EAX, 4
+    INT 80H
+
+    MOV AL, [num1] ; Multiplication...
+    MOV BL, [num2]
+    SUB AL, '0'
+    SUB BL, '0'
+    MUL BL
+    ADD AX, '0'
+    MOV [mult], AX
+
+    MOV EDX, msg05L
+    MOV ECX, msg05
+    MOV EBX, 1
+    MOV EAX, 4
+    INT 80H
+
+    MOV EDX, 2
+    MOV ECX, mult
+    MOV EBX, 1
+    MOV EAX, 4
+    INT 80H
+
+    MOV AL, [num1] ; Division...
+    MOV BL, [num2]
+    SUB AL, '0'
+    SUB BL, '0'
+    DIV BL
+    ADD AX, '0'
+    MOV [divi], AX
+
+    MOV EDX, msg06L
+    MOV ECX, msg06
+    MOV EBX, 1
+    MOV EAX, 4
+    INT 80H
+
+    MOV EDX, 2
+    MOV ECX, divi
+    MOV EBX, 1
+    MOV EAX, 4
+    INT 80H
+
+	MOV EDX, new_lineL
+    MOV ECX, new_line
+    MOV EBX, 1
+    MOV EAX, 4
+    INT 80H
+
+    MOV EBX, 0    ; Exit...
+    MOV EAX, 1
+    INT 80H

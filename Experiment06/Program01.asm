@@ -1,99 +1,65 @@
-%macro write 2
+; AL PROGRAM TO ENTER ELEMENTS IN AN ARRAY AND DISPLAY....
 
-    PUSHA
-    mov eax, 4
-    mov ebx, 1
-    mov ecx, %1
-    mov edx, %2
-    int 80h
-    POPA
-%endmacro
+section .data
+    msg01 db "Enter 5 elements in array : "
+    msg01L equ $ - msg01
+    msg02 db "Array : "
+    msg02L equ $ - msg02
+    space db " "
+    spaceL  equ $ - space
+    new_line db "", 13, 10
+    new_lineL equ $ - new_line
+
+section .bss
+    array resb 5
+    whitespace resb 1
 
 %macro read 2
     PUSHA
-    mov eax, 3
-    mov ebx, 0
-    mov ecx, %1
-    mov edx, %2
-    int 80h
+    MOV EDX, %2
+    MOV ECX, %1
+    MOV EBX, 0
+    MOV EAX, 3
+    INT 80H
     POPA
 %endmacro
 
-section .data
-    msg db "Enter the number of elements : "
-    msglen equ $-msg
-    msg2 db "Enter the Elements : ", 13, 10
-    msglen2 equ $-msg2
-    msg3 db "Array Elements : ", 13, 10
-    msglen3 equ $-msg3
-    newline db 10, 13
-    space db " "
+%macro write 2
+    PUSHA
+    MOV EDX, %2
+    MOV ECX, %1
+    MOV EBX, 1
+    MOV EAX, 4
+    INT 80H
+    POPA
+%endmacro
 
-section .bss
-    arr resb 10
-    size resb 2
-    num1 resb 2
+section .text   
+    global _start
 
-section .text
-	global _start
 _start:
+    write msg01, msg01L
+    write new_line, new_lineL
 
-	write msg, msglen
-	read num1, 2
-	read size, 1
-	xor eax, eax
-	xor ebx, ebx
-	xor ecx, ecx
-	    
-	CALL convert
-	MOV [size], ebx
-	MOV ecx, [size]
-	MOV edi, arr
-	write msg2, msglen2
+    MOV ECX, 5
+    MOV EDI, array
 
-again:
-	read edi, 1
-	read edx, 1
-	inc eax
-	inc edi
-	dec ecx
-	jnz again
-	
-	mov eax, 0
-	mov ecx, [size]
-	MOV edi, arr
-	write msg3, msglen3
+    input:
+        read EDI, 1
+        read whitespace, 1
+        INC EDI
+        LOOP input
+    
+    MOV ECX, 5
+    MOV ESI, array
 
-again1:
-	write edi, 1
-	write space, 1
-	inc eax
-	inc edi
-	dec ecx
-	jnz again1
-	
-	MOV eax, 1
-	int 80h
-	
-convert :
-    mov esi ,num1
-    mov edi ,size
-    mov cl ,02h
-    xor eax,eax
-    xor ebx,ebx
+    write msg02, msg02L
 
-up : 
-    rol bl, 04h
-    mov al, [esi]
-    cmp al, 39h
-    jbe skipc
-    sub al, 07h
-
-skipc : 
-    sub al, 30h
-    add bl, al
-    mov [edi], bl
-    inc esi
-    inc edi
-    loop up
-ret
+    output:
+        write ESI, 1
+        write space, spaceL
+        INC ESI
+        LOOP output
+    MOV EBX, 0
+    MOV EAX, 1
+    INT 80H
